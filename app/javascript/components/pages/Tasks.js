@@ -26,6 +26,7 @@ function Tasks(props) {
 	};
 
 	const onGetTasksSuccess = (response) => {
+		console.log("Success", response);
 		let taskArray = response.data;
 		if (filter === "Completed") {
 			taskArray = response.data.filter((task) => {
@@ -76,7 +77,7 @@ function Tasks(props) {
 	};
 
 	const onUpdateSuccess = (response) => {
-		console.log("success", response);
+		console.log("Success", response);
 		if (response.data.completed) {
 			Swal.fire({
 				icon: "success",
@@ -108,7 +109,7 @@ function Tasks(props) {
 		});
 	};
 	const onServiceSuccess = (response) => {
-		console.log("success", response);
+		console.log("Success", response);
 		setTasks((prevState) => {
 			const ps = { ...prevState };
 			ps.update++;

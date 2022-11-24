@@ -25,7 +25,7 @@ function TaskForm(props) {
 	};
 
 	const onServiceSuccess = (response) => {
-		console.log(response);
+		console.log("Success", response);
 		props.getTasks();
 	};
 

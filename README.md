@@ -28,6 +28,8 @@ This is a [Ruby on Rails](https://rubyonrails.org/) starter app that connects to
 - Migrate the database `railway run rake db:migrate`
 - Run Rails `railway run bin/rails server`
 
+- https://todo-production-fb0e.up.railway.app/
+
 ## 📝 Notes
 
 This app was generated with the `rails new` command. Read more about Rails on
