@@ -23,7 +23,11 @@ const App = (props) => {
 								<a className="text-decoration-none" href={props.new_user_route}>
 									Sign Up
 								</a>{" "}
-								to view your unique list or use our test account to try it out first.
+								to view your unique list or{" "}
+								<a className="text-decoration-none" href={props.sign_in_route}>
+									Log In
+								</a>{" "}
+								using our test account.
 							</h6>
 							<p className="mt-2">
 								Test Account
