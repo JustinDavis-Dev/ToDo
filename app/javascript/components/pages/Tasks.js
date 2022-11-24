@@ -4,6 +4,7 @@ import Task from "../components/Task";
 // import TaskForm from "../components/TaskForm";
 import TaskModal from "../components/TaskModal";
 import { Card, Button, ButtonGroup } from "react-bootstrap";
+import Swal from "sweetalert2";
 
 function Tasks(props) {
 	const defaultTaskInfo = {
@@ -22,13 +23,16 @@ function Tasks(props) {
 		getTasks();
 	}, []);
 
-	const getTasks = async () => {
+	const getTasks = async (filterStatus) => {
+		console.log(filterStatus);
 		tasksService.getTasks().then(onGetTasksSuccess).catch(onServiceError);
 	};
 
 	const onGetTasksSuccess = (response) => {
 		let taskArray = response.data;
+		console.log("Filter Status", filter);
 		if (filter === "Completed") {
+			console.log("Completed filter");
 			taskArray = response.data.filter((task) => {
 				if (task.completed) {
 					return true;
@@ -36,6 +40,7 @@ function Tasks(props) {
 				return false;
 			});
 		} else if (filter === "Pending") {
+			console.log("Pending filter");
 			taskArray = response.data.filter((task) => {
 				if (!task.completed) {
 					return true;
@@ -43,6 +48,7 @@ function Tasks(props) {
 				return false;
 			});
 		}
+		console.log("All filter");
 
 		setTasks((prevState) => {
 			const ps = { ...prevState };
@@ -52,12 +58,8 @@ function Tasks(props) {
 		});
 	};
 
-	const onServiceError = (err) => {
-		console.log("error", err);
-	};
-
 	const mapTask = (aTask) => {
-		return <Task task={aTask} key={"Task-" + aTask.id} openForm={openForm} handleDelete={handleDelete} />;
+		return <Task task={aTask} key={"Task-" + aTask.id} openForm={openForm} handleDelete={handleDelete} handleUpdate={handleUpdate} />;
 	};
 
 	const openForm = (aTask) => {
@@ -76,8 +78,42 @@ function Tasks(props) {
 		setModalShow(true);
 	};
 
+	const handleUpdate = (aTask) => {
+		console.log(aTask);
+		tasksService.update(aTask.id, aTask.title, !aTask.completed).then(onUpdateSuccess).catch(onServiceError);
+	};
+
+	const onUpdateSuccess = (response) => {
+		console.log("success", response);
+		if (response.data.completed) {
+			Swal.fire({
+				icon: "success",
+				title: "Great Job!",
+				showConfirmButton: false,
+			});
+		}
+		getTasks();
+	};
+
 	const handleDelete = (id) => {
 		console.log(id);
+		Swal.fire({
+			title: "Are you sure?",
+			text: "You won't be able to revert this!",
+			icon: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#3085d6",
+			cancelButtonColor: "#d33",
+			confirmButtonText: "Yes, delete it!",
+		}).then((result) => {
+			if (result.isConfirmed) {
+				tasksService.destroy(id).then(onDeleteSuccess).catch(onServiceError);
+			}
+		});
+	};
+	const onDeleteSuccess = (response) => {
+		console.log("success", response);
+		getTasks();
 	};
 
 	const handleFilter = (e) => {
@@ -106,6 +142,10 @@ function Tasks(props) {
 			ps.taskComponents = filteredTasks.map(mapTask);
 			return ps;
 		});
+	};
+
+	const onServiceError = (err) => {
+		console.log("error", err);
 	};
 
 	return (
@@ -145,7 +185,7 @@ function Tasks(props) {
 					</div>
 				</div>
 			</div>
-			<TaskModal show={modalShow} hide={() => setModalShow(false)} task={taskInfo} />
+			<TaskModal show={modalShow} hide={() => setModalShow(false)} task={taskInfo} getTasks={getTasks} />
 		</>
 	);
 }

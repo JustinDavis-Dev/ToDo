@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import tasksService from "../services/tasksService";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import Swal from "sweetalert2";
 
 const validationSchema = Yup.object().shape({
 	title: Yup.string().min(2).max(255).required("Required"),
@@ -38,10 +39,22 @@ function TaskForm(props) {
 
 	const onAddSuccess = (response) => {
 		console.log(response);
+		Swal.fire({
+			icon: "success",
+			title: "Successfully Added Task!",
+			showConfirmButton: false,
+		});
+		props.getTasks();
 	};
 
 	const onUpdateSuccess = (response) => {
 		console.log(response);
+		Swal.fire({
+			icon: "success",
+			title: "Successfully Updated Task!",
+			showConfirmButton: false,
+		});
+		props.getTasks();
 	};
 
 	const onServiceError = (err) => {

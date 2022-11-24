@@ -13,12 +13,12 @@ function Footer() {
 
 					<ul className="nav col-md-4 ms-auto justify-content-end list-unstyled d-flex">
 						<li className="ms-3">
-							<a className="text-muted" href="#">
+							<a className="text-muted" href="https://www.linkedin.com/in/justin-davis-dev/" target="_blank">
 								<FaLinkedin />
 							</a>
 						</li>
 						<li className="ms-3">
-							<a className="text-muted" href="#">
+							<a className="text-muted" href="https://github.com/JustinDavis-Dev/ToDo" target="_blank">
 								<FaGithub />
 							</a>
 						</li>

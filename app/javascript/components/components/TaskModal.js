@@ -5,6 +5,11 @@ import TaskForm from "../components/TaskForm";
 function TaskModal(props) {
 	const aTask = props.task;
 	console.log(aTask);
+
+	const getTasks = () => {
+		props.hide();
+		props.getTasks();
+	};
 	return (
 		<Modal show={props.show} onHide={props.hide} size="lg" centered>
 			<Modal.Header closeButton>
@@ -13,7 +18,7 @@ function TaskModal(props) {
 			<Modal.Body>
 				<div className="row justify-content-center">
 					<div className="col-8">
-						<TaskForm task={aTask} />
+						<TaskForm task={aTask} getTasks={getTasks} />
 					</div>
 				</div>
 			</Modal.Body>

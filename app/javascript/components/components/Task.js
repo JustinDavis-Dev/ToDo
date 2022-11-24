@@ -9,6 +9,10 @@ function Task(props) {
 		props.openForm(aTask);
 	};
 
+	const handleUpdate = () => {
+		props.handleUpdate(aTask);
+	};
+
 	const handleDelete = () => {
 		props.handleDelete(aTask.id);
 	};
@@ -18,11 +22,11 @@ function Task(props) {
 			<div className="d-flex align-items-center">
 				<div className="flex-shrink-0 me-2">
 					{aTask.completed ? (
-						<button className="btn d-flex">
+						<button className="btn d-flex" onClick={handleUpdate}>
 							<FaRegCheckCircle />
 						</button>
 					) : (
-						<button className="btn d-flex">
+						<button className="btn d-flex" onClick={handleUpdate}>
 							<FaRegCircle />
 						</button>
 					)}

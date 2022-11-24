@@ -33,5 +33,16 @@ const update = (id, title, completed) => {
 	return axios(config);
 };
 
-const tasksService = { getTasks, add, update };
+const destroy = (id) => {
+	const config = {
+		method: "DELETE",
+		url: `/api/tasks/${id}`,
+		withCredentials: true,
+		crossdomain: true,
+		headers: { "Content-Type": "application/json" },
+	};
+	return axios(config);
+};
+
+const tasksService = { getTasks, add, update, destroy };
 export default tasksService;
