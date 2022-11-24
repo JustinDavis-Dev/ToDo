@@ -4,7 +4,6 @@ import { FaEdit, FaRegTrashAlt, FaRegCircle, FaRegCheckCircle } from "react-icon
 
 function Task(props) {
 	const aTask = props.task;
-	console.log(aTask);
 	const openForm = () => {
 		props.openForm(aTask);
 	};

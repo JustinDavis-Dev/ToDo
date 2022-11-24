@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import tasksService from "../services/tasksService";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import Swal from "sweetalert2";
 
 const validationSchema = Yup.object().shape({
 	title: Yup.string().min(2).max(255).required("Required"),
@@ -11,8 +10,6 @@ const validationSchema = Yup.object().shape({
 function TaskForm(props) {
 	const [formData, setFormData] = useState({ id: "", title: "", completed: false });
 
-	console.log(props);
-
 	useEffect(() => {
 		if (props.task.id) {
 			setFormData(props.task);
@@ -20,40 +17,15 @@ function TaskForm(props) {
 	}, []);
 
 	const handleSubmit = (values) => {
-		console.log(values);
 		if (values.id) {
-			tasksService.update(values.id, values.title, values.completed).then(onUpdateSuccess).catch(onServiceError);
+			tasksService.update(values.id, values.title, values.completed).then(onServiceSuccess).catch(onServiceError);
 		} else {
-			tasksService.add(values.title).then(onAddSuccess).catch(onServiceError);
+			tasksService.add(values.title).then(onServiceSuccess).catch(onServiceError);
 		}
 	};
 
-	// const addTask = (text) => {
-	// 	console.log(text);
-	// 	// tasksService.add(text).then(onAddSuccess).catch(onServiceError);
-	// 	// axios
-	// 	// 	.post(`/api/tasks?task[title]=${text}&task[completed]=false`)
-	// 	// 	.then((res) => console.log(res, "success"))
-	// 	// 	.catch((err) => console.log(err));
-	// };
-
-	const onAddSuccess = (response) => {
+	const onServiceSuccess = (response) => {
 		console.log(response);
-		Swal.fire({
-			icon: "success",
-			title: "Successfully Added Task!",
-			showConfirmButton: false,
-		});
-		props.getTasks();
-	};
-
-	const onUpdateSuccess = (response) => {
-		console.log(response);
-		Swal.fire({
-			icon: "success",
-			title: "Successfully Updated Task!",
-			showConfirmButton: false,
-		});
 		props.getTasks();
 	};
 
@@ -62,10 +34,6 @@ function TaskForm(props) {
 	};
 
 	return (
-		// <form onSubmit={handleSubmit}>
-		// 	<input type="text" name="title" value={text.title} onChange={onFormFieldChange} />
-		// 	<button type="submit">Add Task</button>
-		// </form>
 		<Formik enableReinitialize={true} initialValues={formData} onSubmit={handleSubmit} validationSchema={validationSchema}>
 			<Form className="mt-2">
 				<div className="form-group">

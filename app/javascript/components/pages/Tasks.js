@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import tasksService from "../services/tasksService";
 import Task from "../components/Task";
-// import TaskForm from "../components/TaskForm";
 import TaskModal from "../components/TaskModal";
 import { Card, Button, ButtonGroup } from "react-bootstrap";
 import Swal from "sweetalert2";
@@ -13,26 +12,22 @@ function Tasks(props) {
 		completed: false,
 	};
 
-	const [tasks, setTasks] = useState({ tasks: [], taskComponents: [] });
+	const [tasks, setTasks] = useState({ tasks: [], taskComponents: [], update: 0 });
 	const [modalShow, setModalShow] = useState(false);
 	const [taskInfo, setTaskInfo] = useState(defaultTaskInfo);
 	const [filter, setFilter] = useState("All");
 
 	useEffect(() => {
-		console.log("mounted");
 		getTasks();
-	}, []);
+	}, [tasks.update]);
 
-	const getTasks = async (filterStatus) => {
-		console.log(filterStatus);
+	const getTasks = async () => {
 		tasksService.getTasks().then(onGetTasksSuccess).catch(onServiceError);
 	};
 
 	const onGetTasksSuccess = (response) => {
 		let taskArray = response.data;
-		console.log("Filter Status", filter);
 		if (filter === "Completed") {
-			console.log("Completed filter");
 			taskArray = response.data.filter((task) => {
 				if (task.completed) {
 					return true;
@@ -40,7 +35,6 @@ function Tasks(props) {
 				return false;
 			});
 		} else if (filter === "Pending") {
-			console.log("Pending filter");
 			taskArray = response.data.filter((task) => {
 				if (!task.completed) {
 					return true;
@@ -48,7 +42,6 @@ function Tasks(props) {
 				return false;
 			});
 		}
-		console.log("All filter");
 
 		setTasks((prevState) => {
 			const ps = { ...prevState };
@@ -79,7 +72,6 @@ function Tasks(props) {
 	};
 
 	const handleUpdate = (aTask) => {
-		console.log(aTask);
 		tasksService.update(aTask.id, aTask.title, !aTask.completed).then(onUpdateSuccess).catch(onServiceError);
 	};
 
@@ -92,11 +84,14 @@ function Tasks(props) {
 				showConfirmButton: false,
 			});
 		}
-		getTasks();
+		setTasks((prevState) => {
+			const ps = { ...prevState };
+			ps.update++;
+			return ps;
+		});
 	};
 
 	const handleDelete = (id) => {
-		console.log(id);
 		Swal.fire({
 			title: "Are you sure?",
 			text: "You won't be able to revert this!",
@@ -107,17 +102,20 @@ function Tasks(props) {
 			confirmButtonText: "Yes, delete it!",
 		}).then((result) => {
 			if (result.isConfirmed) {
-				tasksService.destroy(id).then(onDeleteSuccess).catch(onServiceError);
+				tasksService.destroy(id).then(onServiceSuccess).catch(onServiceError);
 			}
 		});
 	};
-	const onDeleteSuccess = (response) => {
+	const onServiceSuccess = (response) => {
 		console.log("success", response);
-		getTasks();
+		setTasks((prevState) => {
+			const ps = { ...prevState };
+			ps.update++;
+			return ps;
+		});
 	};
 
 	const handleFilter = (e) => {
-		console.log(e.target.value);
 		setFilter(e.target.value);
 		let filteredTasks = tasks.tasks;
 		if (e.target.value === "Completed") {
@@ -160,8 +158,6 @@ function Tasks(props) {
 								<Button variant="primary" onClick={openForm}>
 									Add Task
 								</Button>
-
-								{/* <TaskForm {...props} /> */}
 							</div>
 							<div className="text-end my-2">
 								<ButtonGroup size="sm">
@@ -176,16 +172,12 @@ function Tasks(props) {
 									</Button>
 								</ButtonGroup>
 							</div>
-
-							{/* <button onClick={handleUpdate}>Update</button>
-				<button onClick={handleDelete}>Delete</button> */}
-
-							<div>{tasks.taskComponents}</div>
+							<div>{tasks.taskComponents.length > 0 ? tasks.taskComponents : <h3 className="text-center">No Tasks</h3>}</div>
 						</Card>
 					</div>
 				</div>
 			</div>
-			<TaskModal show={modalShow} hide={() => setModalShow(false)} task={taskInfo} getTasks={getTasks} />
+			<TaskModal show={modalShow} hide={() => setModalShow(false)} task={taskInfo} getTasks={onServiceSuccess} />
 		</>
 	);
 }

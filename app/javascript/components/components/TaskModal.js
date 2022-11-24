@@ -4,7 +4,6 @@ import TaskForm from "../components/TaskForm";
 
 function TaskModal(props) {
 	const aTask = props.task;
-	console.log(aTask);
 
 	const getTasks = () => {
 		props.hide();
