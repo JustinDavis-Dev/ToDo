@@ -62,10 +62,12 @@ function Tasks(props) {
 
 	const openForm = (aTask) => {
 		console.log(aTask);
-		if (aTask > 0) {
+		if (aTask.id > 0) {
 			setTaskInfo((prevState) => {
 				const ps = { ...prevState };
-				ps.id = aTask;
+				ps.id = aTask.id;
+				ps.title = aTask.title;
+				ps.completed = aTask.completed;
 				return ps;
 			});
 		} else {

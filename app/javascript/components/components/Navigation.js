@@ -19,9 +19,6 @@ const Navigation = ({ logged_in, current_user, new_user_route, sign_in_route, si
 					<Nav className="ms-auto">
 						{logged_in ? (
 							<>
-								<NavLink to="/about" className="nav-link">
-									About
-								</NavLink>
 								<Nav.Link href={sign_out_route}>Log Out</Nav.Link>
 							</>
 						) : (

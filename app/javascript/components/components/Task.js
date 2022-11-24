@@ -6,7 +6,7 @@ function Task(props) {
 	const aTask = props.task;
 	console.log(aTask);
 	const openForm = () => {
-		props.openForm(aTask.id);
+		props.openForm(aTask);
 	};
 
 	const handleDelete = () => {
