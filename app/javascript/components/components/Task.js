@@ -3,14 +3,14 @@ import { Card } from "react-bootstrap";
 import { FaEdit, FaRegTrashAlt, FaRegCircle, FaRegCheckCircle } from "react-icons/fa";
 
 function Task(props) {
-	console.log(props);
-	const aTask = props;
+	const aTask = props.task;
+	console.log(aTask);
 	const openForm = () => {
-		props.openForm(props.id);
+		props.openForm(aTask.id);
 	};
 
 	const handleDelete = () => {
-		props.handleDelete(props.id);
+		props.handleDelete(aTask.id);
 	};
 
 	return (
@@ -28,7 +28,7 @@ function Task(props) {
 					)}
 				</div>
 				<div className="flex-grow-1">
-					<h5 className={`d-flex my-0 ${aTask.completed ? "text-decoration-line-through" : ""}`}>{props.title}</h5>
+					<h5 className={`d-flex my-0 ${aTask.completed ? "text-decoration-line-through" : ""}`}>{aTask.title}</h5>
 				</div>
 				<button className="btn d-flex me-2" onClick={openForm}>
 					<FaEdit />
