@@ -18,7 +18,6 @@ function TaskForm(props) {
 	};
 	return (
 		<form onSubmit={handleSubmit}>
-			<p>text</p>
 			<input value={text.title} onChange={(e) => setText(e.target.value)} />
 			<button type="submit">add</button>
 		</form>
