@@ -12,9 +12,9 @@ const Navigation = ({ logged_in, current_user, new_user_route, sign_in_route, si
 				<Navbar.Toggle aria-controls="basic-navbar-nav" />
 				<Navbar.Collapse id="basic-navbar-nav">
 					<Nav className="ms-auto">
-						<span className="align-self-center me-2">Welcome! {current_user.email}</span>
 						{logged_in ? (
 							<>
+								<span className="align-self-center me-2">Welcome! {current_user.email}</span>
 								<Nav.Link href={sign_out_route}>Log Out</Nav.Link>
 							</>
 						) : (

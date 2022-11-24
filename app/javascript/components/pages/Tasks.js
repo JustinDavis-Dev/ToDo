@@ -82,6 +82,7 @@ function Tasks(props) {
 				icon: "success",
 				title: "Great Job!",
 				showConfirmButton: false,
+				timer: 1500,
 			});
 		}
 		setTasks((prevState) => {
@@ -150,7 +151,7 @@ function Tasks(props) {
 		<>
 			<div className="container my-5">
 				<div className="row justify-content-center">
-					<div className="col-8">
+					<div className="col col-md-8">
 						<Card body className="bg-light">
 							<div className="text-center">
 								<h1>To-Do</h1>
