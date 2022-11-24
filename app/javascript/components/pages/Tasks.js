@@ -5,7 +5,7 @@ import TaskModal from "../components/TaskModal";
 import { Card, Button, ButtonGroup } from "react-bootstrap";
 import Swal from "sweetalert2";
 
-function Tasks(props) {
+function Tasks() {
 	const defaultTaskInfo = {
 		id: "",
 		title: "",
